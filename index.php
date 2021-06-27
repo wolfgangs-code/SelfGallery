@@ -32,8 +32,9 @@ function genThumb($img)
 	$name = substr($img, 0, strrpos($img, "."));
 	# If you cannot process images, don't bother trying to make previews
 	$img = extension_loaded('gd') ? makePreview($img) : $img;
+	$size = getimagesize($img)[3];
     print("\t\t<li>");
-    print("<img src='{$img}' alt='{$name}' loading='lazy'><br>");
+    print("<img src='{$img}' alt='{$name}' {$size} loading='lazy'><br>");
     print("<p>{$name}</p>");
     print("</li>\n");
 }
