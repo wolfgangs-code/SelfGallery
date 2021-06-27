@@ -1,3 +1,15 @@
+<?php
+
+function genThumb($img)
+{
+    $name = substr($img, 0, strrpos($img, "."));
+    print("\t\t<li>");
+    print("<img src='{$img}' alt='{$name}' loading='lazy'><br>");
+    print("<p>{$name}</p>");
+    print("</li>\n");
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -53,15 +65,6 @@
 	<h1>Gallery of /<?=basename(__DIR__)?></h1>
 	<ul class='sgallery'>
 <?php
-
-function genThumb($img)
-{
-	$name = substr($img, 0, strrpos($img, "."));
-    print("\t\t<li>");
-    print("<img src='{$img}' alt='{$name}' loading='lazy'><br>");
-	print("<p>{$name}</p>");
-    print("</li>\n");
-}
 
 $dir = array_diff(scandir("./"), array('..', '.'));
 natcasesort($dir);
