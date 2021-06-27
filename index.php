@@ -1,7 +1,20 @@
 <?php
 
+define("THUMBDIR", getcwd()."/.selfgallery-cache");
+
+# If you can process images AND no thumbnail folder exists, create it.
+!extension_loaded('gd') ?: is_dir(THUMBDIR) ?: mkdir(THUMBDIR, 0777, true);
+
+function makePreview($img) {
+	$file = imagecreatefromstring(file_get_contents($img));
+	print($file);
+	return $img;
+}
+
 function genThumb($img)
 {
+	# If you cannot process images, don't bother trying to make previews
+	$img = extension_loaded('gd') ? makePreview($img) : $img;
     $name = substr($img, 0, strrpos($img, "."));
     print("\t\t<li>");
     print("<img src='{$img}' alt='{$name}' loading='lazy'><br>");

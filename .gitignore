@@ -1,5 +1,6 @@
 # SelfGallery files
 SelfGallery.css
+.selfgallery-cache
 
 # Images
 *.apng
