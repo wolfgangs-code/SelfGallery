@@ -6,16 +6,32 @@ define("THUMBDIR", getcwd()."/.selfgallery-cache");
 !extension_loaded('gd') ?: is_dir(THUMBDIR) ?: mkdir(THUMBDIR, 0777, true);
 
 function makePreview($img) {
-	$file = imagecreatefromstring(file_get_contents($img));
-	print($file);
-	return $img;
+	# If it's a .GIF, don't bother.
+	if (substr($img, -4) === ".gif") return $img;
+
+	$fname = substr($img, 0, strrpos($img, "."));
+	$fhash = md5_file($img);
+
+	# If the thumbnail already exists, deliver it.
+	if (file_exists(THUMBDIR."/{$fhash}.webp")) return ".selfgallery-cache/{$fhash}.webp";
+
+	# Preview synthesis
+	$isize = getimagesize($img);
+	print_r($isize);
+
+	$ifile = imagecreatefromstring(file_get_contents($img));
+
+	imagewebp($ifile, THUMBDIR."/{$fhash}.webp", 0);
+	# Free up memory
+	imagedestroy($ifile);
+	return ".selfgallery-cache/{$fhash}.webp";
 }
 
 function genThumb($img)
 {
+	$name = substr($img, 0, strrpos($img, "."));
 	# If you cannot process images, don't bother trying to make previews
 	$img = extension_loaded('gd') ? makePreview($img) : $img;
-    $name = substr($img, 0, strrpos($img, "."));
     print("\t\t<li>");
     print("<img src='{$img}' alt='{$name}' loading='lazy'><br>");
     print("<p>{$name}</p>");
