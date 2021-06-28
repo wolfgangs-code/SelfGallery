@@ -24,7 +24,7 @@ function makePreview($img) {
 	imagepalettetotruecolor($ifile);
 
 	# QUALITY FORMULA
-	$quality = max(ceil(MAXQUALITY + -(max($isize[0], $isize[1]) ** 2) / 140 ** 2), MINQUALITY);
+	$quality = max(ceil(MAXQUALITY + -((max($isize[0], $isize[1]) - LOWRESOLUTION) ** 2) / 140 ** 2), MINQUALITY);
 	(max($isize[0], $isize[1]) > LOWRESOLUTION) ?: $quality = MAXQUALITY;
 
 	imagewebp($ifile, THUMBDIR."/{$fhash}.webp", $quality);
