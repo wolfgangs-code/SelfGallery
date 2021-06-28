@@ -21,6 +21,7 @@ function makePreview($img) {
 	# Preview synthesis
 	$isize = getimagesize($img);
 	$ifile = imagecreatefromstring(file_get_contents($img));
+	imagepalettetotruecolor($ifile);
 
 	# QUALITY FORMULA
 	$quality = max(ceil(MAXQUALITY + -(max($isize[0], $isize[1]) ** 2) / 140 ** 2), MINQUALITY);
