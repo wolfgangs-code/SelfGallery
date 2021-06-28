@@ -17,11 +17,16 @@ function makePreview($img) {
 
 	# Preview synthesis
 	$isize = getimagesize($img);
-	print_r($isize);
-
 	$ifile = imagecreatefromstring(file_get_contents($img));
 
-	imagewebp($ifile, THUMBDIR."/{$fhash}.webp", 0);
+	# QUALITY FORMULA
+	define("LOWEND", 128);
+	define("MAXQUALITY", 100);
+	define("MINQUALITY", 5);
+	$quality = max(ceil(MAXQUALITY + -(max($isize[0], $isize[1]) ** 2) / 16384), MINQUALITY);
+	print($quality);
+
+	imagewebp($ifile, THUMBDIR."/{$fhash}.webp", $quality);
 	# Free up memory
 	imagedestroy($ifile);
 	return ".selfgallery-cache/{$fhash}.webp";
@@ -34,7 +39,7 @@ function genThumb($img)
 	$img = extension_loaded('gd') ? makePreview($img) : $img;
 	$size = getimagesize($img)[3];
     print("\t\t<li>");
-    print("<img src='{$img}' alt='{$name}' {$size} loading='lazy'><br>");
+    print("<img src='{$img}' alt='{$name}' loading='lazy'><br>");
     print("<p>{$name}</p>");
     print("</li>\n");
 }
