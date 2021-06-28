@@ -107,7 +107,7 @@ $dir = array_diff(scandir("./"), array('..', '.'));
 natcasesort($dir);
 
 foreach ($dir as $file) {
-    !exif_imagetype($file) ?: genThumb($file);
+    is_dir($file) ?: !exif_imagetype($file) ?: genThumb($file);
 }
 
 ?>
