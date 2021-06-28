@@ -24,7 +24,7 @@ function makePreview($img) {
 	define("MAXQUALITY", 100);
 	define("MINQUALITY", 5);
 	$quality = max(ceil(MAXQUALITY + -(max($isize[0], $isize[1]) ** 2) / 16384), MINQUALITY);
-	print($quality);
+	!(max($isize[0], $isize[1]) <= LOWEND) ?: $quality = MAXQUALITY;
 
 	imagewebp($ifile, THUMBDIR."/{$fhash}.webp", $quality);
 	# Free up memory
