@@ -32,14 +32,14 @@ function makePreview($img) {
 	return ".selfgallery-cache/{$fhash}.webp";
 }
 
-function genThumb($img)
+function genThumb($nimg)
 {
-	$name = substr($img, 0, strrpos($img, "."));
+	$name = substr($nimg, 0, strrpos($nimg, "."));
 	# If you cannot process images, don't bother trying to make previews
-	$img = extension_loaded('gd') ? makePreview($img) : $img;
+	$img = extension_loaded('gd') ? makePreview($nimg) : $nimg;
 	$size = getimagesize($img)[3];
     print("\t\t<li>");
-    print("<img src='{$img}' alt='{$name}' loading='lazy'><br>");
+    print("<img src='{$img}' alt='{$name}' onclick='window.open(\"{$nimg}\")' loading='lazy'><br>");
     print("<p>{$name}</p>");
     print("</li>\n");
 }
@@ -86,6 +86,7 @@ function genThumb($img)
 			max-width: 90vmin;
   			object-fit: contain;
   			vertical-align: bottom;
+			cursor: pointer;
 		}
 
 		li > p {
