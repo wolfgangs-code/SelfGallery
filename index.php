@@ -1,6 +1,9 @@
 <?php
 
 define("THUMBDIR", getcwd()."/.selfgallery-cache");
+define("LOWEND", 128);
+define("MAXQUALITY", 100);
+define("MINQUALITY", 5);
 
 # If you can process images AND no thumbnail folder exists, create it.
 !extension_loaded('gd') ?: is_dir(THUMBDIR) ?: mkdir(THUMBDIR, 0777, true);
@@ -20,9 +23,6 @@ function makePreview($img) {
 	$ifile = imagecreatefromstring(file_get_contents($img));
 
 	# QUALITY FORMULA
-	define("LOWEND", 128);
-	define("MAXQUALITY", 100);
-	define("MINQUALITY", 5);
 	$quality = max(ceil(MAXQUALITY + -(max($isize[0], $isize[1]) ** 2) / 140 ** 2), MINQUALITY);
 	(max($isize[0], $isize[1]) > LOWEND) ?: $quality = MAXQUALITY;
 
