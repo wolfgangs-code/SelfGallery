@@ -1,7 +1,7 @@
 <?php
 
 define("THUMBDIR", getcwd()."/.selfgallery-cache");
-define("LOWEND", 128);
+define("LOWRESOLUTION", 128);
 define("MAXQUALITY", 100);
 define("MINQUALITY", 5);
 
@@ -25,7 +25,7 @@ function makePreview($img) {
 
 	# QUALITY FORMULA
 	$quality = max(ceil(MAXQUALITY + -(max($isize[0], $isize[1]) ** 2) / 140 ** 2), MINQUALITY);
-	(max($isize[0], $isize[1]) > LOWEND) ?: $quality = MAXQUALITY;
+	(max($isize[0], $isize[1]) > LOWRESOLUTION) ?: $quality = MAXQUALITY;
 
 	imagewebp($ifile, THUMBDIR."/{$fhash}.webp", $quality);
 	# Free up memory
